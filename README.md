@@ -7,9 +7,9 @@
 [![MIT License](https://img.shields.io/github/license/pl3xgaming/Purpur?&logo=github)](License)
 
 Your Management & Cloud System for Minecraft Servers.
-</div>
 
 ---
 
 ![Features](.idea/images/readme_features.png)
 ![Installation](.idea/images/readme_installation.png)
+</div>
