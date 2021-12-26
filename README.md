@@ -10,6 +10,5 @@ Your Management & Cloud System for Minecraft Servers.
 
 ---
 
-![Features](.idea/images/readme_features.png)
-![Installation](.idea/images/readme_installation.png)
+![Information](.idea/images/readme_info.png)
 </div>
