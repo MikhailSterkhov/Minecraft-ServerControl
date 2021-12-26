@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="msc-connection" />
+        <module name="msc-api" />
+        <module name="msc-protocol" />
+        <module name="msc-bootstrap" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Minecraft ServerControlSystem" target="1.8" />
+      <module name="MinecraftServerControlSystem" target="1.8" />
+      <module name="msc-api" target="1.8" />
+      <module name="msc-bootstrap" target="1.8" />
+      <module name="msc-connection" target="1.8" />
+      <module name="msc-protocol" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
