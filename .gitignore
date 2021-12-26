@@ -5,6 +5,7 @@
 /.idea/libraries
 /.idea/workspace.xml
 /dataSources.local.xml
+Minecraft ServerControlSystem.iml
 
 # Editor-based HTTP Client requests
 /httpRequests/
