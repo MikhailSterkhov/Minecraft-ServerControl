@@ -10,3 +10,6 @@ Your Management & Cloud System for Minecraft Servers.
 </div>
 
 ---
+
+![Features](.idea/images/readme_features.png)
+![Installation](.idea/images/readme_installation.png)
