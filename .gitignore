@@ -1,9 +1,6 @@
 # Default ignored files
 /shelf/
-/.idea/dictionaries
-/.idea/inspectionProfiles
-/.idea/libraries
-/.idea/workspace.xml
+/.idea
 /dataSources.local.xml
 Minecraft ServerControlSystem.iml
 

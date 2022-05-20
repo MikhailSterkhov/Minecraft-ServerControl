@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="INFO" packages="net.minecrell.terminalconsole">
+    <Appenders>
+        <RollingFile name="InfoLog" fileName="logs/latest.log" filePattern="logs/info-%d{dd-MM-yyyy}-%i.log">
+            <PatternLayout pattern="[%d{dd-mm-YYYY HH:mm:ss} %level] %msg%n"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="ErrorLog" fileName="logs/error.log" filePattern="logs/error-%d{dd-MM-yyyy}-%i.log">
+            <PatternLayout pattern="[%d{dd-mm-YYYY HH:mm:ss} %level] %msg%n"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="DebugLog" fileName="logs/debug.log" filePattern="logs/debug-%d{dd-MM-yyyy}-%i.log">
+            <PatternLayout pattern="[%d{dd-mm-YYYY HH:mm:ss} %level] %msg%n"/>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <TerminalConsole name="TerminalConsole">
+            <PatternLayout pattern="[%d{HH:mm:ss} %level] %minecraftFormatting{%msg}%n"/>
+        </TerminalConsole>
+    </Appenders>
+
+    <Loggers>
+        <Root level="debug" additivity="false">
+            <AppenderRef ref="TerminalConsole" level="info"/>
+            <AppenderRef ref="ErrorLog" level="error"/>
+            <AppenderRef ref="InfoLog" level="info"/>
+            <AppenderRef ref="DebugLog"/>
+        </Root>
+    </Loggers>
+</Configuration>
