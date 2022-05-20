@@ -11,4 +11,7 @@ Your Management & Cloud System for Minecraft Servers.
 ---
 
 ![Information](images/readme_info.png)
+
+Screenshot of tests:
+![Screenshot](images/msc-screenshot.jpg)
 </div>
