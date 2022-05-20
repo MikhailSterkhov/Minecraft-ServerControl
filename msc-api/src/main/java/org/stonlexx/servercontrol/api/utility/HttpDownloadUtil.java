@@ -12,17 +12,23 @@ import org.stonlexx.servercontrol.api.scheduler.TaskScheduler;
 import org.stonlexx.servercontrol.api.server.MinecraftServerType;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Log4j2
 @UtilityClass
 public class HttpDownloadUtil {
+
+    private final Map<String, byte[]> cachedUrlsInput = new ConcurrentHashMap<>();
 
     @SneakyThrows
     public boolean downloadMinecraftServer(@NonNull Path directoryTo,
@@ -84,8 +90,22 @@ public class HttpDownloadUtil {
         System.out.print(stringBuilder);
     }
 
+    @SneakyThrows
     public boolean downloadFromUrl(@NonNull HttpURLConnection urlConnection,
                                    @NonNull Path directoryTo) {
+
+        String urlString = urlConnection.getURL().toString();
+
+        if (cachedUrlsInput.containsKey(urlString)) {
+
+            FileOutputStream fileOutputStream = new FileOutputStream(directoryTo.toFile());
+            fileOutputStream.write(cachedUrlsInput.get(urlString));
+
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
+            return true;
+        }
 
         try (InputStream inputStream = urlConnection.getInputStream()) {
             TaskScheduler progressTask = new TaskScheduler() {
@@ -117,6 +137,7 @@ public class HttpDownloadUtil {
             progressTask.runTimer(0, 1, TimeUnit.SECONDS);
 
             Files.copy(inputStream, directoryTo);
+            cachedUrlsInput.put(urlString, fileToByteArray(directoryTo.toFile()));
 
             String length = NumberUtil.spaced((int) (urlConnection.getContentLengthLong() / 1024));
             System.out.println("\r[>] Success downloaded [" + length + "/" + length + " KB] 100%!");
@@ -134,5 +155,17 @@ public class HttpDownloadUtil {
             urlConnection.disconnect();
             System.gc();
         }
+    }
+
+    @SneakyThrows
+    private byte[] fileToByteArray(File file) {
+        FileInputStream inputStream = new FileInputStream(file);
+
+        byte[] arr = new byte[(int) file.length()];
+
+        inputStream.read(arr);
+        inputStream.close();
+
+        return arr;
     }
 }
