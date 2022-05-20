@@ -1,6 +1,7 @@
 # Default ignored files
 /shelf/
 /.idea
+/target
 /dataSources.local.xml
 Minecraft ServerControlSystem.iml
 
