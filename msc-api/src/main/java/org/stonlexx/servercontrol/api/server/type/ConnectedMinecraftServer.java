@@ -15,33 +15,27 @@ public interface ConnectedMinecraftServer extends MinecraftServer, UnsafeConnect
 
     boolean isRunning();
 
-    void setRunning(boolean running);
-
-
     Path getRunningDirectory();
 
     TemplateMinecraftServer getTemplate();
 
-
     Collection<BasePlayer> getOnlinePlayers();
-
-
-    void onStart();
-
-    void onShutdown();
-
-
-    void setProperty(@NonNull String propertyKey, @NonNull Object value);
 
     String getProperty(@NonNull String propertyKey);
 
     String getProperty(@NonNull String propertyKey, String defaultValue);
 
-
     String getTotalMemory();
 
     ExecutorService getServerThread();
 
+    void setRunning(boolean running);
+
+    void onStart();
+
+    void onShutdown();
+
+    void setProperty(@NonNull String propertyKey, @NonNull Object value);
 
     default int getOnlineCount() {
         return getOnlinePlayers().size();

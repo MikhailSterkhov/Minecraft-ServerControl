@@ -3,90 +3,28 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
     <groupId>com.mccontrol</groupId>
     <artifactId>mccontrol</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <build>
-        <finalName>MinecraftServerControl</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>**/*.java</exclude>
-                                <exclude>**/*.SF</exclude>
-                                <exclude>**/*.DSA</exclude>
-                                <exclude>module-info.class</exclude>
-                                <exclude>**/Log4j2Plugins.dat</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <target>${java.version}</target>
-                    <source>${java.version}</source>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>${artifact.mainClass}</mainClass>
-                        </manifest>
-                    </archive>
-                    <outputDirectory>${artifact.directory}</outputDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <version>1.0.0</version>
 
     <modules>
-        <module>msc-api</module>
         <module>msc-protocol</module>
+        <module>msc-api</module>
         <module>msc-connection</module>
         <module>msc-bootstrap</module>
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <snakeyaml.version>1.25</snakeyaml.version>
-        <lombok.version>1.18.24</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         <log4j.version>2.15.0</log4j.version>
         <terminal.version>1.2.0</terminal.version>
-        <jline.version>3.21.0</jline.version>
-
-        <!--suppress UnresolvedMavenProperty -->
-        <artifact.directory>${user.home}/OneDrive/Рабочий стол/Minecraft ServerControl</artifact.directory>
-        <artifact.mainClass>org.stonlexx.servercontrol.SystemStarter</artifact.mainClass>
+        <jline.version>3.14.0</jline.version>
     </properties>
 
     <dependencies>
@@ -95,6 +33,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
         </dependency>
 
         <dependency>
@@ -149,7 +93,7 @@
         <dependency>
             <groupId>trove</groupId>
             <artifactId>trove</artifactId>
-            <version>2.1.1</version>
+            <version>1.0.2</version>
             <scope>compile</scope>
         </dependency>
 
@@ -194,20 +138,5 @@
             <version>${log4j.version}</version>
             <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>clojars</id>
-            <name>Clojars</name>
-            <url>https://repo.clojars.org/</url>
-        </repository>
-    </repositories>
-
 </project>

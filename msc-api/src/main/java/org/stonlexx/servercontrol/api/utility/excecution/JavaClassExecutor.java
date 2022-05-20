@@ -39,7 +39,7 @@ public class JavaClassExecutor {
      * Нужный код для компиляции и выполнения
      * написанного Java кода в строке, лучше не трогать))))
      */
-    public class RuntimeCompiler {
+    public static class RuntimeCompiler {
 
         private final JavaCompiler javaCompiler;
         private final MapClassLoader mapClassLoader;

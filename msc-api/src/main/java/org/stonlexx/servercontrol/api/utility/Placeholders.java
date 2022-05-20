@@ -32,7 +32,7 @@ public class Placeholders {
     }
 
     @AllArgsConstructor
-    public class PlaceholderParsedText {
+    public static class PlaceholderParsedText {
 
         private String currentText;
 

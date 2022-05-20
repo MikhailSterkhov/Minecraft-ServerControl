@@ -14,14 +14,11 @@ public interface BasePlayer extends CommandSender, UnsafeConnection {
 
     UUID getUniqueId();
 
-
     InetSocketAddress getInetSocketAddress();
-
 
     ConnectedMinecraftServer getConnectedServer();
 
     ConnectedMinecraftServer getConnectedProxy();
-
 
     void connect(@NonNull ConnectedMinecraftServer connectedMinecraftServer);
 

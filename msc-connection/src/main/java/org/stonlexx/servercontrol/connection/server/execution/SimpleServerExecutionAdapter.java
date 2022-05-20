@@ -43,7 +43,6 @@ public abstract class SimpleServerExecutionAdapter implements OSExecutionServer 
 
     protected abstract List<String> getProcessCommands();
 
-
     @SneakyThrows
     @Override
     public synchronized void runServer() {
@@ -211,8 +210,8 @@ public abstract class SimpleServerExecutionAdapter implements OSExecutionServer 
                                 if (connectionCounter > 2) {
                                     schedulerManager.cancelScheduler(schedulerId);
 
-                                    minecraftServer.onShutdown();
                                     shutdownServer();
+                                    minecraftServer.onShutdown();
 
                                     log.info(ChatColor.RED + "MSC :: No response server '" + minecraftServer.getName() + "' connection: Timeout");
                                 }

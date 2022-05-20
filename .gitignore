@@ -2,12 +2,12 @@
 /shelf/
 /.idea
 /target
+/*/target
 /dataSources.local.xml
 Minecraft ServerControlSystem.iml
 
 # Editor-based HTTP Client requests
 /httpRequests/
-
 
 # Compiled class file
 *.class
@@ -22,7 +22,6 @@ Minecraft ServerControlSystem.iml
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
