@@ -34,10 +34,7 @@ public class SimpleTemplateMinecraftServer
 
     @Override
     public int getStartPort() {
-        Properties properties = getProperties();
-        FileUtil.read(templateDirectory.resolve("template.properties").toFile(), properties::load);
-
-        return Integer.parseInt(properties.getProperty("start_port", "-1"));
+        return Integer.parseInt(getProperty("start_port", "-1"));
     }
 
     @Override
@@ -58,6 +55,27 @@ public class SimpleTemplateMinecraftServer
     @Override
     public void addConnectedServer(@NonNull ConnectedMinecraftServer connectedMinecraftServer) {
         connectedServers.put(connectedMinecraftServer.getName().toLowerCase(), connectedMinecraftServer);
+    }
+
+    @Override
+    public void setProperty(@NonNull String propertyKey, @NonNull Object value) {
+        properties.setProperty(propertyKey, value.toString());
+
+        FileUtil.output(templateDirectory.resolve("template.properties").toFile(),
+                fileOutputStream -> properties.store(fileOutputStream, null));
+    }
+
+    @Override
+    public String getProperty(@NonNull String propertyKey) {
+        Properties properties = getProperties();
+        FileUtil.read(templateDirectory.resolve("template.properties").toFile(), properties::load);
+
+        return getProperty(propertyKey, null);
+    }
+
+    @Override
+    public String getProperty(@NonNull String propertyKey, String defaultValue) {
+        return properties.getProperty(propertyKey, defaultValue);
     }
 
 }

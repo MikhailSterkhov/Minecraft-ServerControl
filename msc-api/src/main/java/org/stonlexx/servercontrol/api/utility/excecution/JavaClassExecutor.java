@@ -1,10 +1,8 @@
-package org.stonlexx.servercontrol.api.utility;
+package org.stonlexx.servercontrol.api.utility.excecution;
 
-import com.google.common.base.Joiner;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.tools.*;
 import java.io.ByteArrayOutputStream;
@@ -17,39 +15,25 @@ import java.net.URI;
 import java.util.*;
 
 @UtilityClass
-public class JavaCodeExecutionUtil {
+public class JavaClassExecutor {
 
     public final RuntimeCompiler RUNTIME_COMPILER = new RuntimeCompiler();
 
-
     /**
      * Выполнить список строк Java кода
      *
-     * @param javaCodeList - код
+     * @param javaClass     - java-класс, обработчик кода.
+     * @param staticMethod  - название статичного метода для запуска кода.
+     * @param parameters    - параметры статичного метода для запуска кода.
      */
-    public void executeCode(List<String> javaCodeList) {
-        executeCode(javaCodeList.toArray(new String[0]));
-    }
+    public void compileAndRun(@NonNull JavaClass javaClass, @NonNull String staticMethod, Object... parameters) {
+        System.out.println(javaClass.generateClassCode() + "\n");
 
-    /**
-     * Выполнить список строк Java кода
-     *
-     * @param javaCode - код
-     */
-    public void executeCode(String... javaCode) {
-        String className = "JavaExecution_" + RandomStringUtils.randomAlphabetic(32);
-        String codeToExecution = "public class " + className + " {" + "\n" +
-                "    public static void run() throws Exception {" + "\n" +
-                "        " + (Joiner.on("        \n").join(javaCode)) + "\n" +
-                "    }" + "\n" +
-                "}" + "\n";
-
-        RUNTIME_COMPILER.addClass(className, codeToExecution);
+        RUNTIME_COMPILER.addClass(javaClass.getClassName(), javaClass.generateClassCode());
         RUNTIME_COMPILER.compile();
 
-        MethodInvocationUtils.invokeStaticMethod(RUNTIME_COMPILER.getCompiledClass(className), "run");
+        MethodInvocationUtils.invokeStaticMethod(RUNTIME_COMPILER.getCompiledClass(javaClass.getClassName()), staticMethod, parameters);
     }
-
 
     /**
      * Нужный код для компиляции и выполнения

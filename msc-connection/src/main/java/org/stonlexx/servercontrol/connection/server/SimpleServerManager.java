@@ -103,7 +103,6 @@ public final class SimpleServerManager implements ServerManager {
     }
 
     @SneakyThrows
-    @SuppressWarnings("all")
     @Override
     public ConnectedMinecraftServer createConnectedServer(@NonNull TemplateMinecraftServer templateMinecraftServer,
                                                           @NonNull String serverIndex,
@@ -111,32 +110,26 @@ public final class SimpleServerManager implements ServerManager {
                                                           String serverVersion,
                                                           boolean downloadJar) {
 
-        String serverName = templateMinecraftServer.getName().concat("-").concat(serverIndex);
+        String serverName = templateMinecraftServer.getName()
+                .concat("-")
+                .concat(serverIndex);
 
         // sub server directory
         Path serverDirectory = templateMinecraftServer.getTemplateDirectory().resolve(serverIndex);
 
         if (!Files.exists(serverDirectory)) {
-            Files.createDirectory(serverDirectory);
-            Files.createDirectory(serverDirectory.resolve("plugins"));
+            Files.createDirectories(serverDirectory.resolve("plugins"));
 
             // sub server property file
             Path propertyPath = serverDirectory.resolve("mccontrol.properties");
             Properties properties = new Properties();
 
             if (!Files.exists(propertyPath)) {
-                Files.createFile(propertyPath);
+                Files.copy(SimpleServerManager.class.getResourceAsStream("/mccontrol.properties"), propertyPath);
             }
 
-            FileUtil.input(propertyPath.toFile(), properties::load);
-
-            properties.setProperty("server.name", serverName);
-            properties.setProperty("server.memory", "512M");
-            properties.setProperty("server.version", serverVersion);
-            properties.setProperty("unload.allow", "false");
-
-            FileUtil.output(propertyPath.toFile(), fileOutputStream ->
-                    properties.save(fileOutputStream, " Property configuration of the sub server " + serverName));
+            templateMinecraftServer.setProperty("server.name", serverName);
+            templateMinecraftServer.setProperty("server.version", serverVersion);
 
             // eula file
             File eulaFile = serverDirectory.resolve("eula.txt").toFile();

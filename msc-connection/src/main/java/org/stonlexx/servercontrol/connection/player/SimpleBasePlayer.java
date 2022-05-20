@@ -62,6 +62,7 @@ public class SimpleBasePlayer implements BasePlayer, UnsafeConnection {
 
     @Override
     public void sendPacket(MinecraftPacket<?> nettyPacket) {
-
+        // ...
     }
+
 }

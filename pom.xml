@@ -80,12 +80,13 @@
 
         <snakeyaml.version>1.25</snakeyaml.version>
         <lombok.version>1.18.12</lombok.version>
-        <log4j.version>2.12.1</log4j.version>
+        <log4j.version>2.15.0</log4j.version>
         <terminal.version>1.2.0</terminal.version>
         <jline.version>3.14.0</jline.version>
 
+        <!--suppress UnresolvedMavenProperty -->
         <artifact.directory>${user.home}/OneDrive/Рабочий стол/Minecraft ServerControl</artifact.directory>
-        <artifact.mainClass>org.stonlex.servercontrol.SystemStarter</artifact.mainClass>
+        <artifact.mainClass>org.stonlexx.servercontrol.SystemStarter</artifact.mainClass>
     </properties>
 
     <dependencies>

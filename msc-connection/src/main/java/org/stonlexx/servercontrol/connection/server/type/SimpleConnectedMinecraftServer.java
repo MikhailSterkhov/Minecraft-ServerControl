@@ -74,7 +74,7 @@ public class SimpleConnectedMinecraftServer
         Properties properties = getProperties();
         FileUtil.read(templateDirectory.resolve("mccontrol.properties").toFile(), properties::load);
 
-        if (properties.getProperty("unload.allow", "false").equals("true")) {
+        if (properties.getProperty("server.static.mode", "false").equals("false")) {
             Directories.clearDirectory(getRunningDirectory().toFile(), true);
         }
     }
@@ -109,7 +109,6 @@ public class SimpleConnectedMinecraftServer
                 player -> player.getConnectedServer() != null && player.getConnectedServer().equals(this));
     }
 
-
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof SimpleConnectedMinecraftServer)) {
@@ -133,7 +132,6 @@ public class SimpleConnectedMinecraftServer
     public Path getRunningDirectory() {
         return MinecraftServerControlApi.getInstance().getServiceManager().getRunningDirectory().resolve(name);
     }
-
 
     @Override
     public void sendPacket(MinecraftPacket<?> packet) {
