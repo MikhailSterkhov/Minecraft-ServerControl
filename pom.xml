@@ -79,10 +79,10 @@
         <java.version>1.8</java.version>
 
         <snakeyaml.version>1.25</snakeyaml.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <log4j.version>2.15.0</log4j.version>
         <terminal.version>1.2.0</terminal.version>
-        <jline.version>3.14.0</jline.version>
+        <jline.version>3.21.0</jline.version>
 
         <!--suppress UnresolvedMavenProperty -->
         <artifact.directory>${user.home}/OneDrive/Рабочий стол/Minecraft ServerControl</artifact.directory>
@@ -149,7 +149,7 @@
         <dependency>
             <groupId>trove</groupId>
             <artifactId>trove</artifactId>
-            <version>1.0.2</version>
+            <version>2.1.1</version>
             <scope>compile</scope>
         </dependency>
 
@@ -202,5 +202,12 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    
+    <repositories>
+        <repository>
+            <id>clojars</id>
+            <name>Clojars</name>
+            <url>https://repo.clojars.org/</url>
+        </repository>
+    </repositories>
+
 </project>
