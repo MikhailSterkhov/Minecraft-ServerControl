@@ -122,14 +122,10 @@ public final class SimpleServerManager implements ServerManager {
 
             // sub server property file
             Path propertyPath = serverDirectory.resolve("mccontrol.properties");
-            Properties properties = new Properties();
 
             if (!Files.exists(propertyPath)) {
                 Files.copy(SimpleServerManager.class.getResourceAsStream("/mccontrol.properties"), propertyPath);
             }
-
-            templateMinecraftServer.setProperty("server.name", serverName);
-            templateMinecraftServer.setProperty("server.version", serverVersion);
 
             // eula file
             File eulaFile = serverDirectory.resolve("eula.txt").toFile();
@@ -149,7 +145,11 @@ public final class SimpleServerManager implements ServerManager {
             }
 
             // initialize the sub server
-            ConnectedMinecraftServer connectedMinecraftServer = new SimpleConnectedMinecraftServer(serverName, serverVersion, templateMinecraftServer, properties, serverDirectory);
+            ConnectedMinecraftServer connectedMinecraftServer = new SimpleConnectedMinecraftServer(serverName, serverVersion, templateMinecraftServer, new Properties(), serverDirectory);
+
+            connectedMinecraftServer.setProperty("server.name", serverName);
+            connectedMinecraftServer.setProperty("server.version", serverVersion);
+
             addConnectedServer(connectedMinecraftServer);
 
             templateMinecraftServer.addConnectedServer(connectedMinecraftServer);

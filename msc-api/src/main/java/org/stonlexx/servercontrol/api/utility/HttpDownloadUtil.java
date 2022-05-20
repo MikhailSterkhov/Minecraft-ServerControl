@@ -97,13 +97,7 @@ public class HttpDownloadUtil {
         String urlString = urlConnection.getURL().toString();
 
         if (cachedUrlsInput.containsKey(urlString)) {
-
-            FileOutputStream fileOutputStream = new FileOutputStream(directoryTo.toFile());
-            fileOutputStream.write(cachedUrlsInput.get(urlString));
-
-            fileOutputStream.flush();
-            fileOutputStream.close();
-
+            FileUtil.createAndOutput(directoryTo.toFile(), handler -> handler.write(cachedUrlsInput.get(urlString)));
             return true;
         }
 
@@ -137,7 +131,7 @@ public class HttpDownloadUtil {
             progressTask.runTimer(0, 1, TimeUnit.SECONDS);
 
             Files.copy(inputStream, directoryTo);
-            cachedUrlsInput.put(urlString, fileToByteArray(directoryTo.toFile()));
+            cachedUrlsInput.put(urlString, FileUtil.toByteArray(directoryTo.toFile()));
 
             String length = NumberUtil.spaced((int) (urlConnection.getContentLengthLong() / 1024));
             System.out.println("\r[>] Success downloaded [" + length + "/" + length + " KB] 100%!");
@@ -155,17 +149,5 @@ public class HttpDownloadUtil {
             urlConnection.disconnect();
             System.gc();
         }
-    }
-
-    @SneakyThrows
-    private byte[] fileToByteArray(File file) {
-        FileInputStream inputStream = new FileInputStream(file);
-
-        byte[] arr = new byte[(int) file.length()];
-
-        inputStream.read(arr);
-        inputStream.close();
-
-        return arr;
     }
 }

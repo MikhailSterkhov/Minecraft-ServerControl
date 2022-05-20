@@ -44,10 +44,14 @@ public final class SimpleSchedulerManager implements SchedulerManager {
     @Override
     public void runTimer(String schedulerId,
                          Runnable command, long delay, long period, TimeUnit timeUnit) {
+
         ScheduledFuture<?> scheduledFuture
                 = scheduledExecutor.scheduleAtFixedRate(command, delay, period, timeUnit);
 
-        schedulerMap.put(schedulerId.toLowerCase(), scheduledFuture);
+        ScheduledFuture<?> previous = schedulerMap.put(schedulerId.toLowerCase(), scheduledFuture);
+        if (previous != null) {
+            previous.cancel(true);
+        }
     }
 
 

@@ -41,7 +41,6 @@ public final class SimpleMinecraftServerControlConnection
     @Getter
     private final long runningMillis;
 
-
     @Override
     public void processHandle(@NonNull String logMessage,
                               @NonNull Runnable process) {
@@ -110,61 +109,61 @@ public final class SimpleMinecraftServerControlConnection
         serviceManager.getServerManager().getMinecraftServers().clear();
         serviceManager.getServerManager().getTemplateServers().clear();
 
-        File[] shapeServerDirectories = serviceManager.getTemplatesDirectory().toFile().listFiles();
+        File[] templatesDirectory = serviceManager.getTemplatesDirectory().toFile().listFiles();
 
-        if (shapeServerDirectories == null) {
+        if (templatesDirectory == null) {
             return;
         }
 
         // Get shape minecraft servers
-        for (File shapeServerDirectory : shapeServerDirectories) {
+        for (File templateDir : templatesDirectory) {
 
             // Server property
-            Properties shapeProperties  = new Properties();
-            File shapePropertyFile      = shapeServerDirectory.toPath().resolve("template.properties").toFile();
+            Properties templateProperties    = new Properties();
+            File templatePropertiesFile      = templateDir.toPath().resolve("template.properties").toFile();
 
-            if (!shapePropertyFile.exists()) {
+            if (!templatePropertiesFile.exists()) {
                 continue;
             }
 
-            FileUtil.input(shapePropertyFile, shapeProperties::load);
+            FileUtil.input(templatePropertiesFile, templateProperties::load);
 
             SimpleTemplateMinecraftServer simpleTemplateMinecraftServer = new SimpleTemplateMinecraftServer(
 
-                    shapeServerDirectory.getName(), shapeServerDirectory.toPath(), shapeProperties,
-                    MinecraftServerType.getTypeByLevel(Integer.parseInt(shapeProperties.getProperty("type")))
+                    templateDir.getName(), templateDir.toPath(), templateProperties,
+                    MinecraftServerType.getTypeByLevel(Integer.parseInt(templateProperties.getProperty("type")))
             );
 
             // Get sub minecraft servers
-            File[] subServerDirectories = shapeServerDirectory.listFiles();
+            File[] serversDirectory = templateDir.listFiles();
 
-            if (subServerDirectories == null) {
+            if (serversDirectory == null) {
                 continue;
             }
 
-            for (File subServerDirectory : subServerDirectories) {
+            for (File serverDir : serversDirectory) {
 
                 // Server property
-                Properties subProperties    = new Properties();
-                File subPropertyFile        = subServerDirectory.toPath().resolve("mccontrol.properties").toFile();
+                Properties serverProperties       = new Properties();
+                File serverPropertiesFile         = serverDir.toPath().resolve("mccontrol.properties").toFile();
 
-                if (!subPropertyFile.exists()) {
+                if (!serverPropertiesFile.exists()) {
                     continue;
                 }
 
-                FileUtil.input(subPropertyFile, subProperties::load);
+                FileUtil.input(serverPropertiesFile, serverProperties::load);
 
-                String subServerName = subProperties.getProperty("server.name");
-                String version = subProperties.getProperty("server.version", "1.12.2");
+                String serverName = serverProperties.getProperty("server.name");
+                String version = serverProperties.getProperty("server.version", "1.12.2");
 
                 // Create sub server
                 SimpleConnectedMinecraftServer simpleConnectedMinecraftServer = new SimpleConnectedMinecraftServer(
-                        subServerName, version,
+                        serverName, version,
 
                         simpleTemplateMinecraftServer,
-                        subProperties,
+                        serverProperties,
 
-                        subServerDirectory.toPath()
+                        serverDir.toPath()
                 );
 
                 simpleTemplateMinecraftServer.addConnectedServer(simpleConnectedMinecraftServer);

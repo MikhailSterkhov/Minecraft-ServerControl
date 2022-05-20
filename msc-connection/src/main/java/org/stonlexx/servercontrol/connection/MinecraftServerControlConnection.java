@@ -17,18 +17,15 @@ public interface MinecraftServerControlConnection {
 
     void createDirectories();
 
-
     void processHandle(@NonNull String logMessage, @NonNull Runnable process);
 
     void resetRunningServers();
-
 
     void initMinecraftCommands();
 
     void initMinecraftServers();
 
     void initTicker(long millis);
-
 
     long getRunningMillis();
 

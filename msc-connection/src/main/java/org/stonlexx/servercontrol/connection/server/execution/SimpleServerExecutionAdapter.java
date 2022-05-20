@@ -208,7 +208,7 @@ public abstract class SimpleServerExecutionAdapter implements OSExecutionServer 
                             } else {
                                 connectionCounter++;
 
-                                if (connectionCounter >= 30) {
+                                if (connectionCounter > 2) {
                                     schedulerManager.cancelScheduler(schedulerId);
 
                                     minecraftServer.onShutdown();
@@ -220,34 +220,42 @@ public abstract class SimpleServerExecutionAdapter implements OSExecutionServer 
                         });
                     }
 
-                }, 10, 1, TimeUnit.SECONDS);
+                }, 30, 1, TimeUnit.SECONDS);
     }
 
     @RequiredArgsConstructor
     private final class ShutdownChannelHandler extends ChannelInboundHandlerAdapter {
 
+        private boolean isConnectionClosed = false;
+
+        private static final String ERROR_MSG_CONNECTION_CLOSED = "An existing connection was forcibly closed by the remote host";
         private final Properties serverProperties;
+
+        private void onClosed() {
+            isConnectionClosed = true;
+
+            log.info(ChatColor.RED + "MSC :: Server '" + minecraftServer.getName() + "' was disconnected!");
+            minecraftServer.onShutdown();
+        }
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+            if (cause.getMessage().equals(ERROR_MSG_CONNECTION_CLOSED)) {
+
+                this.onClosed();
+                return;
+            }
+
             log.error(minecraftServer.getName() + " <-> " + cause.getMessage(), cause);
         }
 
         @Override
         public void channelInactive(ChannelHandlerContext ctx) {
-            if (!minecraftServer.isRunning()) {
+            if (!minecraftServer.isRunning() || isConnectionClosed) {
                 return;
             }
 
-            // Вдруг он отключился из-за какого-то таймаута или неактивности
-            createInboundBootstrap(serverProperties).connect().addListener(future -> {
-
-                if (!future.isSuccess()) {
-                    log.info(ChatColor.RED + "MSC :: Server '" + minecraftServer.getName() + "' was disconnected!");
-
-                    minecraftServer.onShutdown();
-                }
-            });
+            this.onClosed();
         }
     }
 }

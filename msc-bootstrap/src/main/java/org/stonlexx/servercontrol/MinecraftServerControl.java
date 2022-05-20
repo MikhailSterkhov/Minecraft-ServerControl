@@ -40,12 +40,11 @@ public final class MinecraftServerControl
         setRunning(true);
         initServices();
 
-
         // Create & initialize API realises
         MinecraftServerControlConnection connection = MinecraftServerControlConnection.getInstance();
 
         connection.processHandle("Creating all directories", connection::createDirectories);
-        connection.processHandle("Reset of running servers", connection::resetRunningServers);
+        connection.processHandle("Loading of running servers", connection::resetRunningServers);
         connection.processHandle("Registering basic commands", connection::initMinecraftCommands);
 
         connection.initTicker(500);

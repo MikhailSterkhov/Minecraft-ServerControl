@@ -68,6 +68,17 @@ public class FileUtil {
     }
 
     @SneakyThrows
+    public void createAndOutput(@NonNull File file,
+                                @NonNull ThrowableFileHandler<FileOutputStream> fileHandler) {
+
+        if (!Files.exists(file.toPath())) {
+            Files.createFile(file.toPath());
+        }
+
+        output(file, fileHandler);
+    }
+
+    @SneakyThrows
     public void deleteAndRead(@NonNull File file,
                               @NonNull ThrowableFileHandler<FileReader> fileHandler) {
 
@@ -95,6 +106,17 @@ public class FileUtil {
         httpURLConnection.disconnect();
     }
 
+    @SneakyThrows
+    public byte[] toByteArray(File file) {
+        FileInputStream inputStream = new FileInputStream(file);
+
+        byte[] arr = new byte[(int) file.length()];
+
+        inputStream.read(arr);
+        inputStream.close();
+
+        return arr;
+    }
 
     public interface ThrowableFileHandler<H> {
 
