@@ -3,6 +3,7 @@ package org.stonlexx.servercontrol.api.utility;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -12,8 +13,14 @@ import java.nio.file.Path;
 @UtilityClass
 public class Directories {
 
+    @SneakyThrows
     public void clearDirectory(@NonNull File file, boolean delete) {
         if (!file.exists()) {
+            return;
+        }
+
+        if (delete) {
+            FileUtils.deleteDirectory(file);
             return;
         }
 
@@ -28,10 +35,6 @@ public class Directories {
 
                 directoryFile.delete();
             }
-        }
-
-        if (delete) {
-            file.delete();
         }
     }
 
