@@ -9,6 +9,16 @@
 Your Management & Cloud System for Minecraft Servers.
 
 ---
+<div align="left">
+
+### Feedback
+
++ **[Discord Server](https://discord.gg/GmT9pUy8af)**
++ **[VKontakte Page](https://vk.com/itzstonlex)**
+
+</div>
+
+---
 
 ![Information](images/readme_info.png)
 
